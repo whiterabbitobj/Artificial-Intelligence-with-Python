@@ -15,6 +15,7 @@ def get_random_flower_path(basepath):
     for path, folders, files in os.walk(basepath):
         for file in files:
             flowers.append(os.path.join(path,file))
+            
     return flowers[randint(0,len(flowers)-1)]
 
 
@@ -45,6 +46,7 @@ def load_datasets(mean=[0.485, 0.456, 0.406],
     for loader in loaders:
         do_shuffle = (loader=='train')
         dataloaders[loader] = DataLoader(loader_datasets[loader], batch_size=batch_size, shuffle=do_shuffle)
+
     return dataloaders, loader_datasets['train'].class_to_idx
 
 
@@ -72,6 +74,7 @@ def save_checkpoint(model, save_name):
                   'lr':model.lr}
     model.to('cpu')
     torch.save(checkpoint, save_name)
+
     return True
 
 

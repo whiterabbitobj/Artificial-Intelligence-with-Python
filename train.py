@@ -60,6 +60,8 @@ def main():
 
     print("Saving to: ", save_name)
     save_checkpoint(model, save_name)
+    return
+
 
 def train_classifier(model,
                      dataloaders,
@@ -104,20 +106,21 @@ def train_classifier(model,
             outputs = model.forward(inputs)
             loss = criterion(outputs, labels)
             loss.backward()
-            # Enable the clip_grad_norm_ line below if NAN values pop up and try again
+
+            # Enable the below code chunk if NAN values pop up and try again
             #nn.utils.clip_grad_norm_(model.parameters(), .01)
+            #if math.isnan(loss.item()):
+            #    print("NAN error: {}".format(loss.item()))
+            #    return
+
             optimizer.step()
 
             accum_loss += loss.item()
 
-            if math.isnan(loss.item()):
-                print("NAN error: {}".format(loss.item()))
-                return
 
             # Stats reporting
             if (batch_num+1) % print_every == 0:
                 batch_time = (time.time() - batch_start)/print_every
-                print("Accum Loss: {}".format(accum_loss))
                 avg_loss = accum_loss/print_every
                 report = ''
 
@@ -127,15 +130,12 @@ def train_classifier(model,
                     model.train()
 
                 print_train_stats(e+1, epochs, batch_num+1, batch_quantity, batch_time, avg_loss, report, training_start)
+
                 batch_start = time.time()
-
-
                 accum_loss = 0
 
             if (test_run is not None) and (batch_num==test_run):
                 break
-
-            #batch_start = time.time()
 
     print_final_stats(model, device, epochs, lr, dataloaders, criterion, training_start)
 

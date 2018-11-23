@@ -122,3 +122,5 @@ def test_model_results(model, dataloaders, criterion, device='cuda'):
                 accuracy = equality.type(torch.FloatTensor).mean()
                 accuracy = accuracy.numpy()
                 print(f'Loss: {loss.item():.3f}, Accuracy: {accuracy}')
+
+    return

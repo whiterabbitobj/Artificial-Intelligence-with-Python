@@ -26,6 +26,7 @@ def print_start_stats(name, device, epochs, batches, batchsize, lr, classifier):
           "\n...and the Network looks like:\n{}".format(classifier),
           "\n{}".format(sep)
          )
+         
     return
 
 
@@ -39,6 +40,7 @@ def print_train_stats(e, epochs, batch, batch_quantity, batch_time, avg_loss, re
           "\n",
           "{0} (runtime: {1:.1f}sec) {0}".format("#"*25, time.time()-training_start)
          )
+
     return
 
 
@@ -50,6 +52,7 @@ def print_final_stats(model, device, epochs, lr, dataloaders, criterion, trainin
           "\nTrained with params:\nModel: {} Epochs: {} Batch Size: {} Learning Rate: {}".format(model.name, epochs, dataloaders['train'].batch_size, lr),
           "\nFINAL {}".format(report),
           "\n{0} \nTOTAL RUNTIME: {1:.2f} seconds\n{0}".format(sep, time.time()-training_start))
+
     return
 
 
@@ -65,6 +68,7 @@ def print_prediction_results(df, flower_label):
     print(" {} was predicted by the model, and...\n".format(top_flower.upper()),
           "{} is the actual flower name.\n".format(flower_label.upper()),
           "This {}!".format(match_status))
+
     return
 
 ###################
@@ -76,11 +80,14 @@ def activate_device(do_gpu):
         active_device = 'cuda'
     else:
         active_device = 'cpu'
+
     return active_device
 
 
 
 def check_savedir(save_dir):
+    if save_dir == '':
+        return True
     if not os.path.isdir(save_dir):
         mkdir = input("Directory {} does not exist, create it? (y/n)".format(save_dir))
         if mkdir.lower() == "y":
@@ -92,6 +99,7 @@ def check_savedir(save_dir):
         else:
             print("Aborting training. Please use a different save directory or create one.")
             return False
+
     return True
 
 
@@ -128,6 +136,7 @@ def process_image(path,
         img = np.array(img)/255
         img = (img - mean) / std
         img = img.transpose(2,0,1)
+
     return img
 
 
