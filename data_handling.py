@@ -105,6 +105,7 @@ def load_checkpoint(filepath):
     model.load_state_dict(checkpoint['state_dict'])
     model.class_to_idx = checkpoint['class_to_idx']
     model.lr = checkpoint['lr']
+    model.epochs = checkpoint['epochs']
 
     optimizer = optim.Adam(model.classifier.parameters(), lr=model.lr)
     optimizer.load_state_dict(checkpoint['optimizer'])
