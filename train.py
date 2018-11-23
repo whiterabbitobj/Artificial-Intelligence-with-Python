@@ -104,7 +104,8 @@ def train_classifier(model,
             outputs = model.forward(inputs)
             loss = criterion(outputs, labels)
             loss.backward()
-            nn.utils.clip_grad_norm_(model.parameters(), .0001)
+            # Enable the clip_grad_norm_ line below if NAN values pop up and try again
+            #nn.utils.clip_grad_norm_(model.parameters(), .01)
             optimizer.step()
 
             accum_loss += loss.item()
